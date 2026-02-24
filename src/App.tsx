@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { TypingAnimation } from './components/TypingAnimation';
 import { InteractivePreview } from './components/InteractivePreview';
+import { Logo } from './components/Logo';
 import {
   Heart, BookOpen, Download, Printer, Calendar, Check,
   Shield, ArrowRight, ChevronDown,
-  Sparkles, PenLine, RefreshCw, Sun, Feather,
+  Sparkles, PenLine, RefreshCw, Feather,
   Gift, FileText, Clock, Users, Star, BookHeart,
-  Coffee, Flower2, Bookmark
+  Coffee, Flower2, Bookmark, MessageCircle, Smartphone
 } from 'lucide-react';
 
 /* ─── Scroll Reveal Hook ─── */
@@ -44,10 +45,17 @@ function Reveal({ children, className = '', id, delay = 0 }: { children: ReactNo
 }
 
 /* ─── CTA Button ─── */
-function CTAButton({ text, large = false }: { text: string; large?: boolean }) {
+const CHECKOUT_URL = 'https://pay.cakto.com.br/9iiog6g_781716';
+
+function CTAButton({ text, large = false, href }: { text: string; large?: boolean; href?: string }) {
+  const isExternal = href ? href.startsWith('http') : true;
+  const linkHref = href || CHECKOUT_URL;
+
   return (
     <a
-      href="#oferta"
+      href={linkHref}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
       className={`inline-flex items-center justify-center gap-2.5 bg-sage-deep hover:bg-sage-dark text-white font-bold rounded-full transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] cta-pulse cursor-pointer ${
         large ? 'px-10 py-5 text-lg tracking-wide' : 'px-8 py-4 text-base'
       }`}
@@ -128,8 +136,6 @@ function StarRating({ count, size = 'md' }: { count: number; size?: 'sm' | 'md' 
   );
 }
 
-/* ─── (Reviews are now inline in the section) ─── */
-
 /* ═══════════════════════════════════════════════════
    MAIN APP
    ═══════════════════════════════════════════════════ */
@@ -144,8 +150,47 @@ export function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleHeaderScroll = () => {
+      setIsHeaderScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleHeaderScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-cream font-body overflow-x-hidden">
+
+      {/* ── Header Minimalista ── */}
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isHeaderScrolled ? 'bg-cream/95 backdrop-blur-lg shadow-md border-b border-beige/50 py-2.5' : 'bg-cream/60 backdrop-blur-sm py-4'}`}>
+        <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
+          {/* Logo */}
+          <a href="#" className="flex items-center group transition-all duration-300">
+            <Logo size={isHeaderScrolled ? 'sm' : 'md'} />
+          </a>
+
+          {/* Nav links */}
+          <nav className="hidden lg:flex items-center gap-8">
+            <a href="#sobre" className="text-sm text-stone-600 hover:text-sage-deep font-semibold transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-sage-deep after:transition-all after:duration-300 hover:after:w-full">Sobre</a>
+            <a href="#previa" className="text-sm text-stone-600 hover:text-sage-deep font-semibold transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-sage-deep after:transition-all after:duration-300 hover:after:w-full">Prévia</a>
+            <a href="#avaliacoes" className="text-sm text-stone-600 hover:text-sage-deep font-semibold transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-sage-deep after:transition-all after:duration-300 hover:after:w-full">Avaliações</a>
+            <a href="#faq-section" className="text-sm text-stone-600 hover:text-sage-deep font-semibold transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-sage-deep after:transition-all after:duration-300 hover:after:w-full">FAQ</a>
+          </nav>
+
+          {/* CTA */}
+          <a
+            href="#oferta"
+            className={`inline-flex items-center gap-2 bg-sage-deep hover:bg-sage-dark text-white font-bold rounded-full transition-all duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-sage-deep/20 cursor-pointer ${isHeaderScrolled ? 'px-5 py-2.5 text-sm' : 'px-6 py-3 text-sm'}`}
+          >
+            <Heart className="w-4 h-4 stroke-[2.5] fill-white/20" />
+            <span className="hidden sm:inline">Começar hoje</span>
+            <span className="sm:hidden">Começar</span>
+            <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+          </a>
+        </div>
+      </header>
 
       {/* ── Floating CTA ── */}
       <div className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ${showFloatingCTA ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}>
@@ -158,7 +203,7 @@ export function App() {
       {/* ══════════════════════════════════════════════
           SECTION 1 — HERO
           ══════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
         {/* Background decorations */}
         <div className="absolute inset-0 bg-gradient-to-b from-cream via-cream-dark/20 to-cream" />
         <div className="absolute top-20 right-0 w-80 h-80 bg-sage/8 rounded-full blur-3xl" />
@@ -185,7 +230,7 @@ export function App() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 items-start">
-              <CTAButton text="Começar hoje com Deus" large />
+              <CTAButton text="Começar hoje com Deus" large href="#oferta" />
             </div>
 
             <div className="flex flex-wrap items-center gap-5 text-sm text-stone-500 font-semibold">
@@ -195,147 +240,186 @@ export function App() {
             </div>
           </div>
 
-          {/* Right: IMPROVED Mockup — Tablet estilo devocional real */}
+          {/* Right: Caderno + Celular mockup */}
           <div className="relative flex justify-center items-center lg:justify-end">
-            {/* Tablet mockup — ENHANCED with real devotional page */}
-            <div className="relative z-10 bg-stone-800 rounded-[2rem] p-3 shadow-2xl shadow-stone-900/25 transform rotate-1 hover:rotate-0 transition-transform duration-700 float-animation">
-              <div className="bg-paper rounded-2xl w-80 md:w-[380px] h-[480px] md:h-[560px] overflow-hidden relative notebook-bg">
-                {/* Spiral binding on left */}
-                <div className="absolute left-0 top-6 bottom-6 w-6 z-20 flex flex-col justify-between items-center">
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <div key={i} className="w-[18px] h-[18px] rounded-full border-[2.5px] border-stone-300 bg-stone-100/80 shadow-inner" />
-                  ))}
+            <div className="flex items-end gap-4 md:gap-6 relative">
+
+              {/* Caderno / Notebook mockup */}
+              <div className="relative transform -rotate-2 hover:rotate-0 transition-transform duration-700 float-animation">
+                <div className="absolute inset-0 bg-stone-900/10 rounded-lg blur-xl translate-y-4 translate-x-2" />
+                <div className="relative bg-amber-50 rounded-lg shadow-2xl w-[230px] md:w-[290px] h-[340px] md:h-[420px] border border-stone-200 overflow-hidden">
+                  {/* Hard cover spine */}
+                  <div className="absolute left-0 top-0 bottom-0 w-8 md:w-10 bg-gradient-to-r from-stone-600 via-stone-500 to-stone-400 rounded-l-lg flex flex-col items-center justify-between py-5">
+                    <div className="flex flex-col items-center gap-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
+                    </div>
+                    <p className="font-hand text-amber-100/90 text-[8px] md:text-[10px] font-bold tracking-widest" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                      DEVOCIONAL 365
+                    </p>
+                    <div className="flex flex-col items-center gap-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
+                    </div>
+                  </div>
+
+                  {/* Page content */}
+                  <div className="ml-8 md:ml-10 h-full notebook-bg relative">
+                    <div className="absolute left-5 top-0 bottom-0 w-[1.5px] bg-red-400/20" />
+                    <div className="pl-7 pr-4 pt-4 pb-3 h-full flex flex-col">
+                      {/* Header */}
+                      <div className="mb-2 pb-1.5 border-b border-stone-300/40">
+                        <p className="font-hand text-sage-deep text-[10px] md:text-xs font-bold tracking-wide">Devocional 365</p>
+                        <div className="flex items-baseline justify-between">
+                          <h3 className="font-display text-xl md:text-2xl font-bold text-stone-700">Dia 120</h3>
+                          <p className="text-[9px] md:text-[10px] text-stone-400 font-bold">30 de Abril</p>
+                        </div>
+                      </div>
+
+                      {/* Prayer */}
+                      <div className="mb-2">
+                        <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">🙏 Oração</p>
+                        <p className="font-hand text-sm md:text-[17px] text-stone-600 leading-relaxed font-bold">
+                          &ldquo;Pai, guia os meus passos hoje. Que eu confie no Teu plano, mesmo sem entender...&rdquo;
+                        </p>
+                      </div>
+
+                      {/* Verse */}
+                      <div className="mb-2 bg-sage-light/20 rounded-lg p-2 md:p-3 border-l-[3px] border-sage">
+                        <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">📖 Versículo</p>
+                        <p className="font-hand text-[15px] md:text-lg text-sage-deep leading-snug font-bold">
+                          &ldquo;Porque eu bem sei os planos que tenho para vós.&rdquo;
+                        </p>
+                        <p className="text-[8px] md:text-[10px] text-stone-500 font-bold mt-0.5">— Jeremias 29:11</p>
+                      </div>
+
+                      {/* Reflection */}
+                      <div className="mb-2">
+                        <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">💭 Reflexão</p>
+                        <p className="text-[10px] md:text-[12px] text-stone-600 leading-relaxed font-semibold">
+                          Confiar é difícil quando não vemos o caminho. Mas Deus já conhece cada passo seu.
+                        </p>
+                      </div>
+
+                      {/* Notes */}
+                      <div className="flex-1 mt-auto">
+                        <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-1.5">✏️ Anotações</p>
+                        <div className="space-y-2">
+                          <div className="border-b border-dashed border-stone-300/50 pb-0.5">
+                            <p className="font-hand text-xs md:text-[15px] text-stone-400 font-semibold">Hoje senti Deus no silêncio...</p>
+                          </div>
+                          <div className="border-b border-dashed border-stone-300/50 pb-0.5">
+                            <p className="font-hand text-xs md:text-[15px] text-stone-300/80 font-semibold">Confiar mesmo sem entender ♡</p>
+                          </div>
+                          <div className="border-b border-dashed border-stone-300/30 h-3" />
+                        </div>
+                      </div>
+
+                      <p className="text-center text-[9px] text-stone-400 font-bold mt-1.5">— 120 —</p>
+                    </div>
+                  </div>
+
+                  {/* Page edges */}
+                  <div className="absolute right-0 top-3 bottom-3 w-[3px] flex flex-col justify-between">
+                    {Array.from({ length: 16 }).map((_, i) => (
+                      <div key={i} className="h-[2px] bg-stone-300/40 rounded-full" />
+                    ))}
+                  </div>
                 </div>
 
-                {/* Red margin line */}
-                <div className="absolute left-8 top-0 bottom-0 w-[2px] bg-red-400/25 z-10" />
+                {/* Label */}
+                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-md border border-stone-200/60 whitespace-nowrap">
+                  <p className="text-[10px] md:text-xs text-stone-600 font-bold flex items-center gap-1.5">
+                    <Printer className="w-3 h-3 text-sage-deep stroke-[2.5]" />
+                    Versão impressa A4
+                  </p>
+                </div>
+              </div>
 
-                {/* Page content */}
-                <div className="pl-11 pr-6 pt-5 pb-4 h-full flex flex-col relative">
-                  {/* Header with day */}
-                  <div className="mb-4 pb-3 border-b-2 border-paper-line/40">
-                    <div className="flex items-center justify-between">
+              {/* Celular / Phone mockup */}
+              <div className="relative transform rotate-2 hover:rotate-0 transition-transform duration-700 float-animation" style={{ animationDelay: '1s' }}>
+                <div className="absolute inset-0 bg-stone-900/10 rounded-[2rem] blur-xl translate-y-4 -translate-x-2" />
+                <div className="relative bg-stone-900 rounded-[2rem] md:rounded-[2.5rem] p-2 shadow-2xl w-[175px] md:w-[220px] h-[340px] md:h-[420px]">
+                  {/* Notch */}
+                  <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-stone-900 rounded-b-xl z-20" />
+
+                  {/* Screen */}
+                  <div className="bg-paper rounded-[1.5rem] md:rounded-[2rem] w-full h-full overflow-hidden relative">
+                    {/* Status bar */}
+                    <div className="bg-sage-deep/10 px-4 pt-5 pb-1.5 flex items-center justify-between">
+                      <p className="text-[8px] text-stone-500 font-bold">9:41</p>
+                      <div className="flex gap-1">
+                        <div className="w-2.5 h-1 bg-stone-400 rounded-full" />
+                        <div className="w-1 h-1 bg-stone-400 rounded-full" />
+                        <div className="w-3 h-1 bg-sage-deep rounded-sm" />
+                      </div>
+                    </div>
+
+                    {/* App content */}
+                    <div className="px-3 md:px-4 pt-1.5 pb-3 h-full overflow-hidden">
+                      {/* App header */}
+                      <div className="text-center mb-2 pb-1.5 border-b border-sage/20">
+                        <p className="font-hand text-sage-deep text-[10px] md:text-sm font-bold">✦ Devocional 365 ✦</p>
+                        <div className="flex items-baseline justify-center gap-1.5 mt-0.5">
+                          <h3 className="font-display text-base md:text-xl font-bold text-stone-700">Dia 45</h3>
+                          <span className="text-[8px] md:text-[10px] text-stone-400 font-semibold">14 de Fev</span>
+                        </div>
+                      </div>
+
+                      {/* Prayer */}
+                      <div className="mb-2">
+                        <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">🙏 Oração</p>
+                        <p className="font-hand text-[12px] md:text-[15px] text-stone-600 leading-relaxed font-bold">
+                          &ldquo;Senhor, ensina-me a amar como Tu amas...&rdquo;
+                        </p>
+                      </div>
+
+                      {/* Verse */}
+                      <div className="mb-2 bg-sage-light/25 rounded-lg p-2 border-l-[2px] md:border-l-[3px] border-sage">
+                        <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">📖 Versículo</p>
+                        <p className="font-hand text-[13px] md:text-[16px] text-sage-deep leading-snug font-bold">
+                          &ldquo;O amor é paciente, o amor é bondoso.&rdquo;
+                        </p>
+                        <p className="text-[7px] md:text-[9px] text-stone-500 font-bold mt-0.5">— 1 Coríntios 13:4</p>
+                      </div>
+
+                      {/* Reflection */}
+                      <div className="mb-2">
+                        <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">💭 Reflexão</p>
+                        <p className="text-[9px] md:text-[11px] text-stone-600 leading-relaxed font-semibold">
+                          Amar não é sobre intensidade, mas sobre constância...
+                        </p>
+                      </div>
+
+                      {/* Notes */}
                       <div>
-                        <p className="font-hand text-sage-deep text-base tracking-wide font-bold">✦ Devocional 365 ✦</p>
-                        <h3 className="font-display text-3xl md:text-4xl font-bold text-stone-700 leading-tight mt-0.5">Dia 45</h3>
+                        <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-1">✏️ Anotações</p>
+                        <div className="space-y-1.5">
+                          <div className="border-b border-dashed border-stone-300/50 pb-0.5">
+                            <p className="font-hand text-[11px] md:text-[13px] text-stone-400 font-semibold">Gratidão pela manhã...</p>
+                          </div>
+                          <div className="border-b border-dashed border-stone-300/40 h-2.5" />
+                          <div className="border-b border-dashed border-stone-300/30 h-2.5" />
+                        </div>
                       </div>
-                      <div className="text-right bg-sage-light/30 rounded-xl px-3 py-2">
-                        <p className="text-xs text-sage-deep font-bold uppercase tracking-wider">Fevereiro</p>
-                        <p className="font-hand text-2xl text-stone-700 font-bold leading-tight">14</p>
-                      </div>
                     </div>
-                  </div>
-
-                  {/* Prayer section */}
-                  <div className="mb-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-base">🙏</span>
-                      <p className="text-xs font-extrabold text-sage-deep uppercase tracking-[0.15em]">Oração</p>
-                    </div>
-                    <p className="font-hand text-xl md:text-[22px] text-stone-600 leading-relaxed font-bold">
-                      &ldquo;Senhor, ensina-me a amar como Tu amas. Que meu coração reflita a Tua compaixão...&rdquo;
-                    </p>
-                  </div>
-
-                  {/* Verse section */}
-                  <div className="mb-4 bg-sage-light/25 rounded-xl p-4 border-l-4 border-sage shadow-sm">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-base">📖</span>
-                      <p className="text-xs font-extrabold text-sage-deep uppercase tracking-[0.15em]">Versículo</p>
-                    </div>
-                    <p className="font-hand text-[22px] md:text-2xl text-sage-deep leading-snug font-bold">
-                      &ldquo;O amor é paciente, o amor é bondoso.&rdquo;
-                    </p>
-                    <p className="text-xs text-stone-500 font-bold mt-1.5 tracking-wide">— 1 Coríntios 13:4</p>
-                  </div>
-
-                  {/* Reflection section */}
-                  <div className="mb-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-base">💭</span>
-                      <p className="text-xs font-extrabold text-sage-deep uppercase tracking-[0.15em]">Reflexão</p>
-                    </div>
-                    <p className="text-sm md:text-[15px] text-stone-600 leading-relaxed font-semibold">
-                      Amar não é sobre intensidade, mas sobre constância. Deus não pede que você ame perfeitamente — Ele pede que tente, todos os dias.
-                    </p>
-                  </div>
-
-                  {/* Notes section */}
-                  <div className="flex-1 mt-auto">
-                    <div className="flex items-center gap-2 mb-2.5">
-                      <span className="text-base">✏️</span>
-                      <p className="text-xs font-extrabold text-sage-deep uppercase tracking-[0.15em]">Anotações</p>
-                    </div>
-                    <div className="space-y-3.5">
-                      <div className="border-b border-dashed border-stone-300/60 pb-1">
-                        <p className="font-hand text-lg text-stone-400 leading-tight font-semibold">Gratidão pela manhã tranquila...</p>
-                      </div>
-                      <div className="border-b border-dashed border-stone-300/60 pb-1">
-                        <p className="font-hand text-lg text-stone-300/80 leading-tight font-semibold">Lembrar de orar pela família</p>
-                      </div>
-                      <div className="border-b border-dashed border-stone-300/40 h-5" />
-                    </div>
-                  </div>
-
-                  {/* Page number */}
-                  <div className="text-center mt-3 pt-2 border-t border-paper-line/30">
-                    <p className="text-xs text-stone-400 font-bold tracking-widest">— 45 —</p>
                   </div>
                 </div>
 
-                {/* Paper fold corner */}
-                <div className="absolute bottom-0 right-0 w-12 h-12">
-                  <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[48px] border-l-transparent border-b-[48px] border-b-cream-dark/80" />
-                  <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[44px] border-l-transparent border-b-[44px] border-b-paper opacity-50" />
+                {/* Label */}
+                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-md border border-stone-200/60 whitespace-nowrap">
+                  <p className="text-[10px] md:text-xs text-stone-600 font-bold flex items-center gap-1.5">
+                    <Smartphone className="w-3 h-3 text-sage-deep stroke-[2.5]" />
+                    Versão digital
+                  </p>
                 </div>
               </div>
-            </div>
 
-            {/* A4 print mockup — behind tablet */}
-            <div className="absolute -left-4 bottom-4 md:-left-10 md:bottom-0 z-0 bg-white rounded-lg shadow-xl w-48 md:w-60 h-64 md:h-72 transform -rotate-6 border border-paper-line/60 overflow-hidden">
-              <div className="p-4 h-full flex flex-col notebook-bg">
-                {/* Spiral dots on top */}
-                <div className="flex justify-center gap-3 mb-3 pb-2 border-b border-paper-line/30">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="w-2.5 h-2.5 rounded-full border-[1.5px] border-stone-300 bg-stone-50" />
-                  ))}
-                </div>
-                <div className="text-center mb-2">
-                  <p className="font-hand text-sage-deep text-xs tracking-wide">Devocional 365</p>
-                  <p className="font-display text-lg font-bold text-stone-700 mt-0.5">Março</p>
-                </div>
-                {/* Calendar */}
-                <div className="bg-cream/50 rounded-lg p-2 mb-2">
-                  <div className="grid grid-cols-7 gap-px text-center mb-1">
-                    {['D','S','T','Q','Q','S','S'].map((d,i) => (
-                      <span key={i} className="text-[7px] text-stone-500 font-bold">{d}</span>
-                    ))}
-                  </div>
-                  <div className="grid grid-cols-7 gap-px text-center">
-                    {Array.from({length:31}, (_,i) => (
-                      <span key={i} className={`text-[8px] font-bold py-px ${i+1 === 15 ? 'text-white bg-sage-deep rounded-full' : 'text-stone-400'}`}>{i+1}</span>
-                    ))}
-                  </div>
-                </div>
-                {/* Mini verse */}
-                <div className="bg-sage-light/30 rounded p-2 mb-2">
-                  <p className="text-[7px] text-sage-deep font-extrabold">📖 Versículo do dia</p>
-                  <p className="text-[7px] text-stone-500 italic leading-tight font-semibold mt-0.5">&ldquo;Aqueles que esperam no Senhor renovam suas forças...&rdquo;</p>
-                </div>
-                {/* Lines */}
-                <div className="space-y-2 flex-1">
-                  <div className="border-b border-dashed border-stone-300 h-2" />
-                  <div className="border-b border-dashed border-stone-300 h-2" />
-                  <div className="border-b border-dashed border-stone-300 h-2" />
-                </div>
-              </div>
             </div>
 
             {/* Decorative elements */}
             <div className="absolute -top-6 -right-6 w-20 h-20 bg-sage/15 rounded-full blur-xl" />
             <div className="absolute -bottom-10 right-10 w-28 h-28 bg-sky-soft/20 rounded-full blur-xl" />
-
-            {/* Decorative glow */}
             <div className="absolute -top-4 left-8 w-16 h-16 bg-sage/10 rounded-full blur-xl" />
           </div>
         </div>
@@ -397,7 +481,7 @@ export function App() {
       {/* ══════════════════════════════════════════════
           SECTION 3 — APRESENTAÇÃO DO PRODUTO
           ══════════════════════════════════════════════ */}
-      <section className="py-20 md:py-28 bg-white/40">
+      <section id="sobre" className="py-20 md:py-28 bg-white/40 scroll-mt-20">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-16">
@@ -413,42 +497,12 @@ export function App() {
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <BenefitCard
-              icon={Calendar}
-              title="365 dias organizados"
-              description="Cada dia do ano tem sua página, com oração, versículo, reflexão e espaço para suas anotações pessoais."
-              delay={0}
-            />
-            <BenefitCard
-              icon={FileText}
-              title="Um dia por página"
-              description="Sem excesso de conteúdo. Cada página é leve, objetiva e feita para caber na sua rotina — mesmo nos dias corridos."
-              delay={100}
-            />
-            <BenefitCard
-              icon={Printer}
-              title="Digital ou impresso"
-              description="Use no tablet, celular ou computador. Ou imprima em A4 e monte seu próprio caderno devocional físico."
-              delay={200}
-            />
-            <BenefitCard
-              icon={PenLine}
-              title="Espaço para escrita"
-              description="Cada dia tem linhas para suas anotações, orações e pensamentos. Seu devocional, do seu jeito."
-              delay={300}
-            />
-            <BenefitCard
-              icon={Coffee}
-              title="Linguagem simples"
-              description="Sem termos religiosos complexos. Textos acolhedores que qualquer pessoa consegue ler e se conectar."
-              delay={400}
-            />
-            <BenefitCard
-              icon={RefreshCw}
-              title="Guias de recomeço"
-              description="Perdeu dias ou semanas? Cada mês tem um guia que ajuda você a retomar sem culpa e sem pressão."
-              delay={500}
-            />
+            <BenefitCard icon={Calendar} title="365 dias organizados" description="Cada dia do ano tem sua página, com oração, versículo, reflexão e espaço para suas anotações pessoais." delay={0} />
+            <BenefitCard icon={FileText} title="Um dia por página" description="Sem excesso de conteúdo. Cada página é leve, objetiva e feita para caber na sua rotina — mesmo nos dias corridos." delay={100} />
+            <BenefitCard icon={Printer} title="Digital ou impresso" description="Use no tablet, celular ou computador. Ou imprima em A4 e monte seu próprio caderno devocional físico." delay={200} />
+            <BenefitCard icon={PenLine} title="Espaço para escrita" description="Cada dia tem linhas para suas anotações, orações e pensamentos. Seu devocional, do seu jeito." delay={300} />
+            <BenefitCard icon={Coffee} title="Linguagem simples" description="Sem termos religiosos complexos. Textos acolhedores que qualquer pessoa consegue ler e se conectar." delay={400} />
+            <BenefitCard icon={RefreshCw} title="Guias de recomeço" description="Perdeu dias ou semanas? Cada mês tem um guia que ajuda você a retomar sem culpa e sem pressão." delay={500} />
           </div>
         </div>
       </section>
@@ -493,16 +547,9 @@ export function App() {
             </div>
           </Reveal>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
+          <div className="grid sm:grid-cols-2 gap-8 md:gap-6 max-w-2xl mx-auto">
             <StepCard number={1} icon={Gift} title="Adquira o devocional" description="Faça seu pedido e receba o acesso completo ao Devocional 365 imediatamente." delay={0} />
             <StepCard number={2} icon={Download} title="Receba o acesso" description="O arquivo completo é enviado para você de forma digital, pronto para usar." delay={100} />
-            <StepCard number={3} icon={Printer} title="Escolha o formato" description="Use digitalmente no tablet ou celular, ou imprima em A4 para criar seu caderno." delay={200} />
-            <StepCard number={4} icon={Sun} title="Comece quando quiser" description="Não importa o mês ou o dia. Abra na página de hoje e comece sua jornada." delay={300} />
-          </div>
-
-          {/* Connecting line for desktop */}
-          <div className="hidden lg:block max-w-4xl mx-auto mt-[-140px] mb-[100px]">
-            <div className="border-t-2 border-dashed border-sage/20 mx-20" />
           </div>
         </div>
       </section>
@@ -510,7 +557,7 @@ export function App() {
       {/* ══════════════════════════════════════════════
           SECTION 6 — DEMONSTRAÇÃO INTERATIVA
           ══════════════════════════════════════════════ */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-cream to-cream-dark/20 notebook-section-bg relative overflow-hidden">
+      <section id="previa" className="py-20 md:py-28 bg-gradient-to-b from-cream to-cream-dark/20 notebook-section-bg relative overflow-hidden scroll-mt-20">
         {/* Decorative notebook elements */}
         <div className="absolute left-4 md:left-10 top-0 bottom-0 w-[1px] bg-red-300/10 hidden lg:block" />
         <div className="absolute left-6 md:left-12 top-0 bottom-0 w-[1px] bg-red-300/10 hidden lg:block" />
@@ -579,7 +626,7 @@ export function App() {
       {/* ══════════════════════════════════════════════
           SECTION 7.5 — AVALIAÇÕES (TESTIMONIALS)
           ══════════════════════════════════════════════ */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-cream-dark/10 to-cream relative overflow-hidden">
+      <section id="avaliacoes" className="py-20 md:py-28 bg-gradient-to-b from-cream-dark/10 to-cream relative overflow-hidden scroll-mt-20">
         <div className="absolute top-0 left-1/3 w-72 h-72 bg-sage/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-sky-soft/8 rounded-full blur-3xl" />
 
@@ -597,9 +644,11 @@ export function App() {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Review 1 — 5 stars */}
             <Reveal delay={0}>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 card-soft border border-paper-line/30 h-full">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 card-soft border border-paper-line/30 h-full review-card-enhanced">
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria Santos" className="w-12 h-12 rounded-full object-cover border-2 border-sage/20" loading="lazy" />
+                  <div className="review-photo-ring">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Maria Santos" className="w-12 h-12 rounded-full object-cover" loading="lazy" />
+                  </div>
                   <div>
                     <p className="font-display text-stone-800 font-bold text-[15px]">Maria Santos</p>
                     <StarRating count={5} size="sm" />
@@ -613,9 +662,11 @@ export function App() {
 
             {/* Review 2 — 5 stars */}
             <Reveal delay={100}>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 card-soft border border-paper-line/30 h-full">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 card-soft border border-paper-line/30 h-full review-card-enhanced">
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Ana Paula R." className="w-12 h-12 rounded-full object-cover border-2 border-sage/20" loading="lazy" />
+                  <div className="review-photo-ring">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face" alt="Ana Paula R." className="w-12 h-12 rounded-full object-cover" loading="lazy" />
+                  </div>
                   <div>
                     <p className="font-display text-stone-800 font-bold text-[15px]">Ana Paula R.</p>
                     <StarRating count={5} size="sm" />
@@ -629,9 +680,11 @@ export function App() {
 
             {/* Review 3 — 4 stars */}
             <Reveal delay={200}>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 card-soft border border-paper-line/30 h-full">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 card-soft border border-paper-line/30 h-full review-card-enhanced">
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Eduardo" className="w-12 h-12 rounded-full object-cover border-2 border-sage/20" loading="lazy" />
+                  <div className="review-photo-ring">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Carlos Eduardo" className="w-12 h-12 rounded-full object-cover" loading="lazy" />
+                  </div>
                   <div>
                     <p className="font-display text-stone-800 font-bold text-[15px]">Carlos Eduardo</p>
                     <StarRating count={4} size="sm" />
@@ -645,9 +698,11 @@ export function App() {
 
             {/* Review 4 — 5 stars */}
             <Reveal delay={300}>
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 card-soft border border-paper-line/30 h-full">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 card-soft border border-paper-line/30 h-full review-card-enhanced">
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Juliana Ferreira" className="w-12 h-12 rounded-full object-cover border-2 border-sage/20" loading="lazy" />
+                  <div className="review-photo-ring">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Juliana Ferreira" className="w-12 h-12 rounded-full object-cover" loading="lazy" />
+                  </div>
                   <div>
                     <p className="font-display text-stone-800 font-bold text-[15px]">Juliana Ferreira</p>
                     <StarRating count={5} size="sm" />
@@ -777,7 +832,7 @@ export function App() {
       {/* ══════════════════════════════════════════════
           SECTION 10 — OFERTA
           ══════════════════════════════════════════════ */}
-      <section id="oferta" className="py-20 md:py-28 bg-gradient-to-b from-cream to-sage-light/15 relative overflow-hidden">
+      <section id="oferta" className="py-20 md:py-28 bg-gradient-to-b from-cream to-sage-light/15 relative overflow-hidden scroll-mt-20">
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-0 w-72 h-72 bg-sage/8 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-0 w-80 h-80 bg-sky-soft/10 rounded-full blur-3xl" />
@@ -786,19 +841,19 @@ export function App() {
         <div className="relative max-w-xl mx-auto px-6">
           <Reveal>
             <div className="bg-white rounded-3xl p-8 md:p-10 card-soft border border-sage/15 text-center space-y-8">
-              {/* Badge */}
               <div className="inline-flex items-center gap-2 bg-sage-deep/10 text-sage-deep px-4 py-2 rounded-full text-sm font-extrabold tracking-wide">
                 <Sparkles className="w-4 h-4 stroke-[2.5]" />
                 Oferta especial
               </div>
 
-              {/* Product name */}
-              <div>
-                <h2 className="font-display text-3xl md:text-4xl text-stone-800 mb-2 font-bold">Devocional 365</h2>
-                <p className="font-hand text-sage-deep text-xl">Um dia de cada vez com Deus</p>
+              <div className="flex flex-col items-center gap-3">
+                <Logo size="lg" showText={false} />
+                <div>
+                  <h2 className="font-display text-3xl md:text-4xl text-stone-800 mb-2 font-bold">Devocional 365</h2>
+                  <p className="font-hand text-sage-deep text-xl">Um dia de cada vez com Deus</p>
+                </div>
               </div>
 
-              {/* Price */}
               <div className="py-4">
                 <div className="flex items-baseline justify-center gap-2">
                   <span className="text-stone-500 text-lg font-semibold">por apenas</span>
@@ -811,7 +866,6 @@ export function App() {
                 <p className="text-stone-500 text-sm mt-2 font-semibold">Pagamento único · Acesso vitalício</p>
               </div>
 
-              {/* Benefits mini list */}
               <div className="text-left space-y-3 max-w-sm mx-auto">
                 {[
                   '365 dias de devocional completo',
@@ -829,12 +883,10 @@ export function App() {
                 ))}
               </div>
 
-              {/* CTA */}
               <div className="pt-2">
                 <CTAButton text="Quero começar hoje" large />
               </div>
 
-              {/* Guarantee */}
               <div className="flex items-center justify-center gap-3 pt-2 text-sm text-stone-500 font-semibold">
                 <Shield className="w-5 h-5 text-sage stroke-[2]" />
                 <span>Garantia de satisfação de <strong className="text-stone-700 font-extrabold">7 dias</strong></span>
@@ -851,7 +903,6 @@ export function App() {
         <div className="max-w-2xl mx-auto px-6">
           <Reveal>
             <div className="bg-paper rounded-2xl p-8 md:p-10 card-soft border border-paper-line/30 relative paper-lines">
-              {/* Decorative corner */}
               <div className="absolute top-4 right-4">
                 <Feather className="w-6 h-6 text-sage/30" />
               </div>
@@ -907,7 +958,7 @@ export function App() {
       {/* ══════════════════════════════════════════════
           SECTION 12 — FAQ
           ══════════════════════════════════════════════ */}
-      <section className="py-20 md:py-28 bg-white/40">
+      <section id="faq-section" className="py-20 md:py-28 bg-white/40 scroll-mt-20">
         <div className="max-w-3xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-14">
@@ -920,30 +971,12 @@ export function App() {
 
           <Reveal delay={100}>
             <div className="bg-paper rounded-2xl p-6 md:p-8 card-soft border border-paper-line/30">
-              <FAQItem
-                question="Posso começar em qualquer dia do ano?"
-                answer="Sim! O Devocional 365 foi criado para que você comece quando quiser. Não importa se estamos em janeiro ou em setembro — abra na página do dia e comece. Cada dia é independente e completo."
-              />
-              <FAQItem
-                question="Funciona se eu já estiver atrasado?"
-                answer="Com certeza. O devocional não segue um calendário rígido. Se você começou e parou, ou se está começando agora no meio do ano, simplesmente abra no dia atual e siga em frente. Os guias mensais de recomeço vão te ajudar nesse processo."
-              />
-              <FAQItem
-                question="Posso imprimir o devocional?"
-                answer="Sim! O arquivo foi preparado no formato A4, ideal para impressão. Você pode imprimir tudo de uma vez ou mês a mês, do jeito que preferir. Também funciona perfeitamente em formato digital."
-              />
-              <FAQItem
-                question="O devocional é digital?"
-                answer="Sim, o Devocional 365 é um produto digital. Você recebe o acesso ao arquivo completo imediatamente após a compra. Pode usar no celular, tablet ou computador, ou imprimir em papel A4."
-              />
-              <FAQItem
-                question="Preciso ter conhecimento bíblico para usar?"
-                answer="Não! O devocional usa uma linguagem simples, acolhedora e sem termos religiosos complexos. Foi feito para qualquer pessoa que deseja se aproximar de Deus, independente do nível de conhecimento bíblico."
-              />
-              <FAQItem
-                question="E se eu não gostar?"
-                answer="Você tem 7 dias de garantia. Se por qualquer motivo o devocional não atender às suas expectativas, é só entrar em contato e devolvemos o valor integral. Sem complicação."
-              />
+              <FAQItem question="Posso começar em qualquer dia do ano?" answer="Sim! O Devocional 365 foi criado para que você comece quando quiser. Não importa se estamos em janeiro ou em setembro — abra na página do dia e comece. Cada dia é independente e completo." />
+              <FAQItem question="Funciona se eu já estiver atrasado?" answer="Com certeza. O devocional não segue um calendário rígido. Se você começou e parou, ou se está começando agora no meio do ano, simplesmente abra no dia atual e siga em frente. Os guias mensais de recomeço vão te ajudar nesse processo." />
+              <FAQItem question="Posso imprimir o devocional?" answer="Sim! O arquivo foi preparado no formato A4, ideal para impressão. Você pode imprimir tudo de uma vez ou mês a mês, do jeito que preferir. Também funciona perfeitamente em formato digital." />
+              <FAQItem question="O devocional é digital?" answer="Sim, o Devocional 365 é um produto digital. Você recebe o acesso ao arquivo completo imediatamente após a compra. Pode usar no celular, tablet ou computador, ou imprimir em papel A4." />
+              <FAQItem question="Preciso ter conhecimento bíblico para usar?" answer="Não! O devocional usa uma linguagem simples, acolhedora e sem termos religiosos complexos. Foi feito para qualquer pessoa que deseja se aproximar de Deus, independente do nível de conhecimento bíblico." />
+              <FAQItem question="E se eu não gostar?" answer="Você tem 7 dias de garantia. Se por qualquer motivo o devocional não atender às suas expectativas, é só entrar em contato e devolvemos o valor integral. Sem complicação." />
             </div>
           </Reveal>
         </div>
@@ -977,7 +1010,7 @@ export function App() {
               </p>
 
               <div className="pt-4">
-                <CTAButton text="Começar hoje com Deus" large />
+                <CTAButton text="Começar hoje com Deus" large href="#oferta" />
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-stone-500 pt-4 font-bold">
@@ -995,11 +1028,32 @@ export function App() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="py-10 bg-stone-800 text-center">
+      <footer className="py-12 bg-stone-800 text-center">
         <div className="max-w-4xl mx-auto px-6">
+          <div className="flex justify-center mb-4">
+            <Logo size="lg" showText={false} />
+          </div>
           <p className="font-hand text-sage text-2xl mb-2">Devocional 365</p>
           <p className="text-stone-400 text-sm font-semibold">Um dia de cada vez com Deus</p>
-          <div className="mt-6 pt-6 border-t border-stone-700">
+
+          {/* WhatsApp Contact */}
+          <div className="mt-6">
+            <a
+              href="https://wa.me/5583988702863"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-green-600/20 cursor-pointer"
+            >
+              <MessageCircle className="w-5 h-5 stroke-[2.5]" />
+              <span className="font-bold text-sm">Dúvidas? Fale conosco</span>
+            </a>
+            <p className="text-stone-400 text-sm mt-3 font-semibold flex items-center justify-center gap-2">
+              <MessageCircle className="w-4 h-4 text-green-400 stroke-[2.5]" />
+              WhatsApp: (83) 98870-2863
+            </p>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-stone-700">
             <p className="text-stone-500 text-xs font-medium">
               © {new Date().getFullYear()} Devocional 365. Todos os direitos reservados.
             </p>

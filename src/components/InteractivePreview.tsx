@@ -321,10 +321,24 @@ export function InteractivePreview() {
                       <span className="text-lg">✏️</span>
                       <h4 className="font-display text-base font-bold text-stone-800">Suas anotações</h4>
                     </div>
-                    <div className="space-y-4">
-                      {[1, 2, 3, 4].map(i => (
-                        <div key={i} className="border-b border-dashed border-stone-300/60 pb-1 h-6" />
-                      ))}
+                    <div className="space-y-3">
+                      <div className="border-b border-dashed border-stone-300/50 pb-1">
+                        <p className="font-hand text-lg text-stone-400/90 font-semibold leading-relaxed" style={{ transform: 'rotate(-0.3deg)' }}>
+                          Hoje senti uma paz diferente ao orar...
+                        </p>
+                      </div>
+                      <div className="border-b border-dashed border-stone-300/50 pb-1">
+                        <p className="font-hand text-lg text-stone-400/70 font-semibold leading-relaxed" style={{ transform: 'rotate(0.2deg)' }}>
+                          Lembrar de agradecer pelas pequenas coisas
+                        </p>
+                      </div>
+                      <div className="border-b border-dashed border-stone-300/50 pb-1">
+                        <p className="font-hand text-[17px] text-stone-400/50 font-medium leading-relaxed" style={{ transform: 'rotate(-0.5deg)' }}>
+                          Deus é fiel, mesmo quando eu duvido ♡
+                        </p>
+                      </div>
+                      <div className="border-b border-dashed border-stone-300/30 h-5" />
+                      <div className="border-b border-dashed border-stone-300/20 h-5" />
                     </div>
                   </div>
                 </div>
