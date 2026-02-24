@@ -32,7 +32,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Performance: reduce blur on mobile */
+/* ─── Performance ─── */
 @media (max-width: 768px) {
   .backdrop-blur-sm,
   .backdrop-blur-lg {
@@ -41,13 +41,11 @@ body {
   }
 }
 
-/* Content visibility for off-screen sections */
 .section-lazy {
   content-visibility: auto;
   contain-intrinsic-size: auto 600px;
 }
 
-/* Fix scroll in interactive preview */
 .preview-scroll-fix {
   touch-action: pan-y !important;
   -webkit-overflow-scrolling: touch;
@@ -57,19 +55,16 @@ body {
   touch-action: pan-y !important;
 }
 
-/* GPU acceleration for animations */
 .float-animation,
 .cta-pulse {
   will-change: transform;
   transform: translateZ(0);
 }
 
-/* Reduce animations on low-power devices */
 @media (prefers-reduced-motion: reduce) {
   .float-animation,
   .cta-pulse,
-  .cal-day-active,
-  .pulse-dot {
+  .cal-day-active {
     animation: none !important;
   }
   * {
@@ -77,11 +72,7 @@ body {
   }
 }
 
-.paper-lines {
-  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
-  background-size: 100% 32px;
-}
-
+/* ─── Typing cursor ─── */
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
@@ -95,6 +86,7 @@ body {
   margin-left: 2px;
 }
 
+/* ─── CTA pulse ─── */
 @keyframes softPulse {
   0%, 100% { box-shadow: 0 4px 15px rgba(90, 139, 80, 0.3); }
   50% { box-shadow: 0 4px 30px rgba(90, 139, 80, 0.15), 0 0 0 8px rgba(90, 139, 80, 0.08); }
@@ -104,15 +96,18 @@ body {
   animation: softPulse 3s ease-in-out infinite;
 }
 
+/* ─── Text highlight ─── */
 .highlight-text {
   background: linear-gradient(180deg, transparent 55%, rgba(168, 197, 160, 0.35) 55%);
   padding: 0 4px;
 }
 
+/* ─── Card shadow ─── */
 .card-soft {
   box-shadow: 0 4px 24px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.03);
 }
 
+/* ─── Notebook margin line ─── */
 .margin-line::before {
   content: '';
   position: absolute;
@@ -123,6 +118,7 @@ body {
   background: rgba(205, 92, 92, 0.15);
 }
 
+/* ─── Float animation ─── */
 @keyframes floatUp {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
@@ -132,16 +128,7 @@ body {
   animation: floatUp 4s ease-in-out infinite;
 }
 
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-slide-up {
-  animation: fadeSlideUp 0.7s ease-out forwards;
-}
-
-/* Notebook background for interactive preview */
+/* ─── Notebook backgrounds ─── */
 .notebook-bg {
   background-color: var(--color-paper);
   background-image:
@@ -154,46 +141,25 @@ body {
 }
 
 .notebook-section-bg {
+  background-color: #FFFDF8;
   background-image:
-    radial-gradient(circle at 10% 20%, rgba(168,197,160,0.06) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(184,212,227,0.06) 0%, transparent 50%),
+    linear-gradient(rgba(205, 92, 92, 0.06) 0px, rgba(205, 92, 92, 0.06) 1px, transparent 1px),
     repeating-linear-gradient(
       transparent,
-      transparent 39px,
-      rgba(180, 170, 155, 0.08) 39px,
-      rgba(180, 170, 155, 0.08) 40px
+      transparent 31px,
+      rgba(160, 150, 135, 0.15) 31px,
+      rgba(160, 150, 135, 0.15) 32px
     );
+  background-size: 60px 100%, 100% 32px;
+  background-position: 40px 0, 0 0;
 }
 
-/* Interactive preview page flip */
-@keyframes pageFlipIn {
-  0% { transform: rotateY(90deg) scale(0.95); opacity: 0; }
-  100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+.paper-lines {
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 100% 32px;
 }
 
-.page-flip-in {
-  animation: pageFlipIn 0.6s ease-out forwards;
-  transform-origin: left center;
-}
-
-/* Stagger children animation */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.stagger-child {
-  opacity: 0;
-  animation: fadeInUp 0.5s ease-out forwards;
-}
-
-.stagger-child:nth-child(1) { animation-delay: 0.1s; }
-.stagger-child:nth-child(2) { animation-delay: 0.2s; }
-.stagger-child:nth-child(3) { animation-delay: 0.3s; }
-.stagger-child:nth-child(4) { animation-delay: 0.4s; }
-.stagger-child:nth-child(5) { animation-delay: 0.5s; }
-
-/* Calendar day hover glow */
+/* ─── Calendar day active pulse ─── */
 .cal-day-active {
   box-shadow: 0 0 0 3px rgba(90, 139, 80, 0.25);
   animation: calPulse 2s ease-in-out infinite;
@@ -204,10 +170,7 @@ body {
   50% { box-shadow: 0 0 0 6px rgba(90, 139, 80, 0.12), 0 0 16px rgba(90, 139, 80, 0.1); }
 }
 
-/* Bookmark tab */
-.bookmark-tab {
-  position: relative;
-}
+/* ─── Bookmark tab ─── */
 .bookmark-tab::after {
   content: '';
   position: absolute;
@@ -220,18 +183,7 @@ body {
   opacity: 0.6;
 }
 
-/* Review card hover */
-@keyframes starShine {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-
-.review-card:hover .star-icon {
-  animation: starShine 0.4s ease-out;
-}
-
-/* Review photo ring */
+/* ─── Review cards ─── */
 .review-photo-ring {
   position: relative;
   border-radius: 9999px;
@@ -246,98 +198,16 @@ body {
   border: 2px solid white;
 }
 
-/* Review card lift */
 .review-card-enhanced {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .review-card-enhanced:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.07), 0 4px 12px rgba(0,0,0,0.04);
 }
 
-/* Verified badge pulse */
-@keyframes verifiedPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-.verified-badge {
-  animation: verifiedPulse 3s ease-in-out infinite;
-}
-
-/* Review carousel scroll */
-.reviews-scroll {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.reviews-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-/* Featured review glow */
-.featured-review {
-  position: relative;
-}
-.featured-review::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 1.25rem;
-  background: linear-gradient(135deg, var(--color-sage), var(--color-sky-soft), var(--color-warm-gold));
-  opacity: 0.2;
-  z-index: -1;
-  transition: opacity 0.3s;
-}
-.featured-review:hover::before {
-  opacity: 0.35;
-}
-
-/* Tape strip effect */
-.tape-strip {
-  background: linear-gradient(135deg, rgba(255,255,220,0.7) 0%, rgba(255,255,200,0.5) 100%);
-  transform: rotate(-2deg);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-
-/* Spiral binding */
-.spiral-hole {
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.5);
-}
-
-/* Content section fade in */
-@keyframes contentReveal {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-.content-reveal {
-  animation: contentReveal 0.5s ease-out forwards;
-}
-
-/* Pencil writing line animation */
-@keyframes drawLine {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-.draw-line {
-  animation: drawLine 0.8s ease-out forwards;
-}
-
-/* Social proof toast */
-@keyframes toastSlideIn {
-  0% { transform: translateX(120%); opacity: 0; }
-  10% { transform: translateX(0); opacity: 1; }
-  90% { transform: translateX(0); opacity: 1; }
-  100% { transform: translateX(120%); opacity: 0; }
-}
-
-.toast-notification {
-  animation: toastSlideIn 5s ease-in-out forwards;
-}
-
-/* Before/After card glow */
+/* ─── Before / After cards ─── */
 .before-card {
   position: relative;
   overflow: hidden;
@@ -366,7 +236,7 @@ body {
   background: linear-gradient(90deg, var(--color-sage), var(--color-sage-deep));
 }
 
-/* Price strike animation */
+/* ─── Price strike animation ─── */
 @keyframes strikethrough {
   from { width: 0; }
   to { width: 100%; }
@@ -387,17 +257,7 @@ body {
   width: 0;
 }
 
-/* Mobile sticky bar */
-@keyframes slideUpBar {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
-.mobile-sticky-bar {
-  animation: slideUpBar 0.4s ease-out forwards;
-}
-
-/* Guarantee shimmer */
+/* ─── Guarantee shimmer ─── */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
@@ -414,27 +274,36 @@ body {
   animation: shimmer 3s ease-in-out infinite;
 }
 
-/* Pulse dot */
-@keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
+/* ─── Tape strip ─── */
+.tape-strip {
+  background: linear-gradient(135deg, rgba(255,255,220,0.7) 0%, rgba(255,255,200,0.5) 100%);
+  transform: rotate(-2deg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
-.pulse-dot {
-  animation: pulseDot 2s ease-in-out infinite;
+/* ─── Spiral binding ─── */
+.spiral-hole {
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.5);
 }
 
-/* Number count animation */
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(8px); }
+/* ─── Stagger children animation ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.count-animate {
-  animation: countUp 0.5s ease-out forwards;
+.stagger-child {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
 }
 
-/* Scrollbar styling */
+.stagger-child:nth-child(1) { animation-delay: 0.1s; }
+.stagger-child:nth-child(2) { animation-delay: 0.2s; }
+.stagger-child:nth-child(3) { animation-delay: 0.3s; }
+.stagger-child:nth-child(4) { animation-delay: 0.4s; }
+.stagger-child:nth-child(5) { animation-delay: 0.5s; }
+
+/* ─── Scrollbar styling ─── */
 ::-webkit-scrollbar {
   width: 8px;
 }

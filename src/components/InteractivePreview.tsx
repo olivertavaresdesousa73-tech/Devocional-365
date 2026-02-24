@@ -214,27 +214,32 @@ export function InteractivePreview() {
                     {calendarDays.map((day, i) => (
                       <div
                         key={i}
-                        className={`text-sm sm:text-base font-bold py-1.5 sm:py-2 rounded-lg transition-colors duration-150 ${
+                        className={`text-sm sm:text-base font-bold py-1.5 sm:py-2 rounded-lg transition-colors duration-150 relative ${
                           day === null
                             ? ''
                             : day === month.sampleDay.dayNumber
-                            ? 'bg-sage-deep text-white font-extrabold shadow-md'
+                            ? 'bg-sage-deep text-white font-extrabold shadow-md cal-day-active'
                             : day < month.sampleDay.dayNumber
-                            ? 'text-stone-400 line-through'
+                            ? 'text-sage-deep/60'
                             : 'text-stone-700'
                         }`}
                       >
-                        {day}
+                        {day !== null && day < month.sampleDay.dayNumber ? (
+                          <span className="relative">
+                            <span className="opacity-40">{day}</span>
+                            <span className="absolute inset-0 flex items-center justify-center font-hand text-sage-deep text-lg font-bold">✓</span>
+                          </span>
+                        ) : day}
                       </div>
                     ))}
                   </div>
 
                   <div className="mt-3 pt-3 border-t border-paper-line/30 flex items-center gap-4 text-xs font-semibold text-stone-500">
-                    <span className="flex items-center gap-1">
-                      <span className="w-3 h-3 bg-sage-deep rounded-sm inline-block" /> Dia atual
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-4 h-4 bg-sage-deep rounded-sm inline-flex items-center justify-center text-white text-[9px]">●</span> Dia atual
                     </span>
-                    <span className="flex items-center gap-1">
-                      <span className="w-3 h-3 bg-stone-200 rounded-sm inline-block" /> Concluído
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-4 h-4 bg-sage-light/40 rounded-sm inline-flex items-center justify-center font-hand text-sage-deep text-xs font-bold">✓</span> Concluído
                     </span>
                   </div>
                 </div>
