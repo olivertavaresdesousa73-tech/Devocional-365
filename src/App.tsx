@@ -664,18 +664,170 @@ export function App() {
           <div className="absolute top-0 left-1/4 w-64 h-64 bg-sage/5 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-sky-soft/10 rounded-full blur-3xl" />
         </div>
-        <div className="relative max-w-4xl mx-auto px-6">
+        <div className="relative max-w-6xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-12">
               <p className="font-hand text-sage-deep text-2xl mb-3">✦ Uma experiência real ✦</p>
               <h2 className="font-display text-3xl md:text-4xl text-stone-800 mb-4 font-bold">
                 Cada dia é um encontro com Deus
               </h2>
+              <p className="text-stone-500 text-base md:text-lg font-medium max-w-xl mx-auto">
+                Veja como cada página foi pensada para trazer paz à sua rotina
+              </p>
             </div>
           </Reveal>
-          <Reveal delay={200}>
-            <TypingAnimation />
-          </Reveal>
+
+          {/* Layout: Side cards + Typing Animation center */}
+          <div className="grid lg:grid-cols-[1fr_2fr_1fr] gap-6 items-start">
+
+            {/* Left side — mini page previews */}
+            <div className="hidden lg:flex flex-col gap-5">
+              <Reveal delay={100}>
+                <div className="bg-paper rounded-xl border border-paper-line/40 p-5 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                  <div className="absolute left-3 top-0 bottom-0 w-[1px] bg-red-300/15" />
+                  <div className="pl-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-6 h-6 bg-sage-light/50 rounded-full flex items-center justify-center">
+                        <span className="text-[10px]">🙏</span>
+                      </div>
+                      <p className="text-[10px] font-extrabold text-sage-deep uppercase tracking-widest">Oração do dia</p>
+                    </div>
+                    <p className="font-hand text-stone-600 text-base leading-relaxed font-bold">
+                      &ldquo;Senhor, abre meus olhos para enxergar Tua mão em cada detalhe deste dia...&rdquo;
+                    </p>
+                    <div className="mt-3 pt-2 border-t border-dashed border-stone-200/50">
+                      <p className="text-[9px] text-stone-400 font-bold text-right">Dia 23 · Janeiro</p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+
+              <Reveal delay={250}>
+                <div className="bg-paper rounded-xl border border-paper-line/40 p-5 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                  <div className="absolute left-3 top-0 bottom-0 w-[1px] bg-red-300/15" />
+                  <div className="pl-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-6 h-6 bg-amber-100/70 rounded-full flex items-center justify-center">
+                        <span className="text-[10px]">📖</span>
+                      </div>
+                      <p className="text-[10px] font-extrabold text-sage-deep uppercase tracking-widest">Versículo</p>
+                    </div>
+                    <div className="bg-sage-light/20 rounded-lg p-3 border-l-[3px] border-sage">
+                      <p className="font-hand text-sage-deep text-[15px] leading-snug font-bold">
+                        &ldquo;Lança o teu cuidado sobre o Senhor, e ele te susterá.&rdquo;
+                      </p>
+                      <p className="text-[9px] text-stone-500 font-bold mt-1">— Salmos 55:22</p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+
+            {/* Center — Typing Animation */}
+            <Reveal delay={200}>
+              <TypingAnimation />
+            </Reveal>
+
+            {/* Right side — mini page previews */}
+            <div className="hidden lg:flex flex-col gap-5">
+              <Reveal delay={150}>
+                <div className="bg-paper rounded-xl border border-paper-line/40 p-5 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                  <div className="absolute left-3 top-0 bottom-0 w-[1px] bg-red-300/15" />
+                  <div className="pl-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-6 h-6 bg-sky-light/60 rounded-full flex items-center justify-center">
+                        <span className="text-[10px]">💭</span>
+                      </div>
+                      <p className="text-[10px] font-extrabold text-sage-deep uppercase tracking-widest">Reflexão</p>
+                    </div>
+                    <p className="text-stone-600 text-[13px] leading-relaxed font-semibold">
+                      Deus não espera que você seja perfeito. Ele espera que você seja sincero. Cada dia é uma nova chance de se aproximar.
+                    </p>
+                    <div className="mt-3 pt-2 border-t border-dashed border-stone-200/50">
+                      <p className="text-[9px] text-stone-400 font-bold text-right">Dia 87 · Março</p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+
+              <Reveal delay={300}>
+                <div className="bg-paper rounded-xl border border-paper-line/40 p-5 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                  <div className="absolute left-3 top-0 bottom-0 w-[1px] bg-red-300/15" />
+                  <div className="pl-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-6 h-6 bg-sage-light/50 rounded-full flex items-center justify-center">
+                        <span className="text-[10px]">✏️</span>
+                      </div>
+                      <p className="text-[10px] font-extrabold text-sage-deep uppercase tracking-widest">Anotações</p>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="border-b border-dashed border-stone-300/50 pb-1">
+                        <p className="font-hand text-stone-500 text-sm font-semibold" style={{ transform: 'rotate(-0.5deg)' }}>Hoje senti paz ao orar...</p>
+                      </div>
+                      <div className="border-b border-dashed border-stone-300/50 pb-1">
+                        <p className="font-hand text-stone-400 text-sm font-semibold" style={{ transform: 'rotate(0.3deg)' }}>Deus é fiel, sempre ♡</p>
+                      </div>
+                      <div className="border-b border-dashed border-stone-300/30 h-3" />
+                    </div>
+                    <div className="mt-2 pt-2 border-t border-dashed border-stone-200/50">
+                      <p className="text-[9px] text-stone-400 font-bold text-right">Dia 152 · Junho</p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+
+          {/* Mobile: horizontal scroll cards */}
+          <div className="lg:hidden mt-8">
+            <Reveal delay={300}>
+              <div className="flex gap-4 overflow-x-auto pb-4 -mx-2 px-2 snap-x snap-mandatory" style={{ scrollbarWidth: 'none' }}>
+                {/* Card 1 */}
+                <div className="bg-paper rounded-xl border border-paper-line/40 p-4 shadow-md min-w-[240px] snap-center flex-shrink-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm">🙏</span>
+                    <p className="text-[9px] font-extrabold text-sage-deep uppercase tracking-widest">Oração</p>
+                    <span className="ml-auto text-[8px] text-stone-400 font-bold">Dia 23</span>
+                  </div>
+                  <p className="font-hand text-stone-600 text-sm leading-relaxed font-bold">
+                    &ldquo;Senhor, abre meus olhos para enxergar Tua mão em cada detalhe...&rdquo;
+                  </p>
+                </div>
+
+                {/* Card 2 */}
+                <div className="bg-paper rounded-xl border border-paper-line/40 p-4 shadow-md min-w-[240px] snap-center flex-shrink-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm">📖</span>
+                    <p className="text-[9px] font-extrabold text-sage-deep uppercase tracking-widest">Versículo</p>
+                    <span className="ml-auto text-[8px] text-stone-400 font-bold">Dia 87</span>
+                  </div>
+                  <div className="bg-sage-light/20 rounded-lg p-2.5 border-l-[3px] border-sage">
+                    <p className="font-hand text-sage-deep text-sm font-bold leading-snug">&ldquo;Lança o teu cuidado sobre o Senhor&rdquo;</p>
+                    <p className="text-[8px] text-stone-500 font-bold mt-0.5">— Salmos 55:22</p>
+                  </div>
+                </div>
+
+                {/* Card 3 */}
+                <div className="bg-paper rounded-xl border border-paper-line/40 p-4 shadow-md min-w-[240px] snap-center flex-shrink-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm">✏️</span>
+                    <p className="text-[9px] font-extrabold text-sage-deep uppercase tracking-widest">Anotações</p>
+                    <span className="ml-auto text-[8px] text-stone-400 font-bold">Dia 152</span>
+                  </div>
+                  <div className="space-y-1.5">
+                    <div className="border-b border-dashed border-stone-300/50 pb-0.5">
+                      <p className="font-hand text-stone-500 text-xs font-semibold">Hoje senti paz ao orar...</p>
+                    </div>
+                    <div className="border-b border-dashed border-stone-300/50 pb-0.5">
+                      <p className="font-hand text-stone-400 text-xs font-semibold">Deus é fiel, sempre ♡</p>
+                    </div>
+                    <div className="border-b border-dashed border-stone-300/30 h-2.5" />
+                  </div>
+                </div>
+              </div>
+              <p className="text-center text-xs text-stone-400 font-semibold mt-2">← Deslize para ver mais →</p>
+            </Reveal>
+          </div>
         </div>
       </section>
 
