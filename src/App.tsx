@@ -210,30 +210,31 @@ export function App() {
         <div className="absolute bottom-20 left-0 w-64 h-64 bg-sky-soft/15 rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-warm-gold/5 rounded-full blur-2xl" />
 
-        <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-0 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-0 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center w-full">
           {/* Left: Copy */}
-          <div className="space-y-8">
+          <div className="space-y-8 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 bg-sage/12 text-sage-deep px-4 py-2 rounded-full text-sm font-bold tracking-wide">
               <Sparkles className="w-4 h-4 stroke-[2.5]" />
-              Devocional 365 — Um dia de cada vez com Deus
+              <span className="hidden sm:inline">Devocional 365 — Um dia de cada vez com Deus</span>
+              <span className="sm:hidden">Devocional 365</span>
             </div>
 
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-stone-800 leading-[1.2] tracking-wide font-bold">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-stone-800 leading-[1.2] tracking-wide font-bold">
               Você não precisa começar no{' '}
               <span className="highlight-text">dia 1</span>{' '}
               para caminhar com Deus
             </h1>
 
-            <p className="text-lg md:text-xl text-stone-600 leading-relaxed max-w-lg font-medium">
+            <p className="text-lg md:text-xl text-stone-600 leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium">
               O Devocional 365 foi criado para pessoas reais, que querem{' '}
               <strong className="text-stone-800 font-extrabold">constância sem culpa.</strong>
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-start">
+            <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start justify-center lg:justify-start">
               <CTAButton text="Começar hoje com Deus" large href="#oferta" />
             </div>
 
-            <div className="flex flex-wrap items-center gap-5 text-sm text-stone-500 font-semibold">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-5 text-sm text-stone-500 font-semibold">
               <span className="flex items-center gap-1.5"><Download className="w-4 h-4 stroke-[2.5]" /> Acesso imediato</span>
               <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 stroke-[2.5]" /> Garantia 7 dias</span>
               <span className="flex items-center gap-1.5"><Printer className="w-4 h-4 stroke-[2.5]" /> Digital ou impresso</span>
@@ -241,13 +242,13 @@ export function App() {
           </div>
 
           {/* Right: Caderno + Celular mockup */}
-          <div className="relative flex justify-center items-center lg:justify-end">
-            <div className="flex items-end gap-4 md:gap-6 relative">
+          <div className="relative flex justify-center items-center lg:justify-end w-full">
+            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-8 sm:gap-4 md:gap-6 relative w-full justify-center">
 
               {/* Caderno / Notebook mockup */}
-              <div className="relative transform -rotate-2 hover:rotate-0 transition-transform duration-700 float-animation">
+              <div className="relative transform sm:-rotate-2 hover:rotate-0 transition-transform duration-700 float-animation">
                 <div className="absolute inset-0 bg-stone-900/10 rounded-lg blur-xl translate-y-4 translate-x-2" />
-                <div className="relative bg-amber-50 rounded-lg shadow-2xl w-[230px] md:w-[290px] h-[340px] md:h-[420px] border border-stone-200 overflow-hidden">
+                <div className="relative bg-amber-50 rounded-lg shadow-2xl w-[260px] sm:w-[230px] md:w-[290px] h-[380px] sm:h-[340px] md:h-[420px] border border-stone-200 overflow-hidden">
                   {/* Hard cover spine */}
                   <div className="absolute left-0 top-0 bottom-0 w-8 md:w-10 bg-gradient-to-r from-stone-600 via-stone-500 to-stone-400 rounded-l-lg flex flex-col items-center justify-between py-5">
                     <div className="flex flex-col items-center gap-1">
@@ -337,9 +338,9 @@ export function App() {
               </div>
 
               {/* Celular / Phone mockup */}
-              <div className="relative transform rotate-2 hover:rotate-0 transition-transform duration-700 float-animation" style={{ animationDelay: '1s' }}>
+              <div className="relative transform sm:rotate-2 hover:rotate-0 transition-transform duration-700 float-animation" style={{ animationDelay: '1s' }}>
                 <div className="absolute inset-0 bg-stone-900/10 rounded-[2rem] blur-xl translate-y-4 -translate-x-2" />
-                <div className="relative bg-stone-900 rounded-[2rem] md:rounded-[2.5rem] p-2 shadow-2xl w-[175px] md:w-[220px] h-[340px] md:h-[420px]">
+                <div className="relative bg-stone-900 rounded-[2rem] md:rounded-[2.5rem] p-2 shadow-2xl w-[220px] sm:w-[175px] md:w-[220px] h-[400px] sm:h-[340px] md:h-[420px]">
                   {/* Notch */}
                   <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-stone-900 rounded-b-xl z-20" />
 
@@ -606,9 +607,7 @@ export function App() {
               { icon: Flower2, text: 'Para quem busca paz, direção e um momento de silêncio na rotina' },
               { icon: Feather, text: 'Para quem deseja uma fé prática, leve e sem complicação' },
               { icon: Heart, text: 'Para quem quer se sentir mais perto de Deus, todos os dias' },
-              { icon: Users, text: 'Para quem quer compartilhar esse momento com a família ou amigos' },
               { icon: BookHeart, text: 'Para quem gosta de escrever, refletir e guardar suas experiências' },
-              { icon: Star, text: 'Para quem acredita que nunca é tarde para começar de novo' },
             ].map((item, i) => (
               <Reveal key={i} delay={i * 80}>
                 <div className="flex items-start gap-4 bg-white/70 backdrop-blur-sm rounded-xl p-5 border border-paper-line/30 hover:border-sage/30 transition-all duration-300">
