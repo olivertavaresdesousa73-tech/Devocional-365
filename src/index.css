@@ -32,6 +32,51 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Performance: reduce blur on mobile */
+@media (max-width: 768px) {
+  .backdrop-blur-sm,
+  .backdrop-blur-lg {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Content visibility for off-screen sections */
+.section-lazy {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* Fix scroll in interactive preview */
+.preview-scroll-fix {
+  touch-action: pan-y !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.preview-scroll-fix * {
+  touch-action: pan-y !important;
+}
+
+/* GPU acceleration for animations */
+.float-animation,
+.cta-pulse {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Reduce animations on low-power devices */
+@media (prefers-reduced-motion: reduce) {
+  .float-animation,
+  .cta-pulse,
+  .cal-day-active,
+  .pulse-dot {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.1s !important;
+  }
+}
+
 .paper-lines {
   background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
   background-size: 100% 32px;

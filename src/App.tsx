@@ -229,24 +229,24 @@ function MobileStickyBar({ show }: { show: boolean }) {
 export function App() {
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
   const [showMobileBar, setShowMobileBar] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowFloatingCTA(window.scrollY > 900);
-      setShowMobileBar(window.scrollY > 600);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
 
   useEffect(() => {
-    const handleHeaderScroll = () => {
-      setIsHeaderScrolled(window.scrollY > 50);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          setShowFloatingCTA(y > 900);
+          setShowMobileBar(y > 600);
+          setIsHeaderScrolled(y > 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleHeaderScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleHeaderScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -333,8 +333,9 @@ export function App() {
             </div>
           </div>
 
-          {/* Right: Caderno + Celular mockup */}
-          <div className="relative flex justify-center items-center lg:justify-end w-full">
+          {/* Right: Mockups + Preview thumbnails */}
+          <div className="relative flex flex-col items-center lg:items-end w-full gap-8">
+            {/* Main mockups: Caderno + Celular */}
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-8 sm:gap-4 md:gap-6 relative w-full justify-center">
 
               {/* Caderno / Notebook mockup — DIA 1 */}
@@ -343,24 +344,17 @@ export function App() {
                 <div className="relative bg-amber-50 rounded-lg shadow-2xl w-[260px] sm:w-[230px] md:w-[290px] h-[380px] sm:h-[340px] md:h-[420px] border border-stone-200 overflow-hidden">
                   {/* Hard cover spine */}
                   <div className="absolute left-0 top-0 bottom-0 w-8 md:w-10 bg-gradient-to-r from-stone-600 via-stone-500 to-stone-400 rounded-l-lg flex flex-col items-center justify-between py-5">
-                    <div className="flex flex-col items-center gap-1">
-                      <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
-                      <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
-                    </div>
+                    <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
                     <p className="font-hand text-amber-100/90 text-[8px] md:text-[10px] font-bold tracking-widest" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
                       DEVOCIONAL 365
                     </p>
-                    <div className="flex flex-col items-center gap-1">
-                      <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
-                      <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
-                    </div>
+                    <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
                   </div>
 
                   {/* Page content */}
                   <div className="ml-8 md:ml-10 h-full notebook-bg relative">
                     <div className="absolute left-5 top-0 bottom-0 w-[1.5px] bg-red-400/20" />
                     <div className="pl-7 pr-4 pt-4 pb-3 h-full flex flex-col">
-                      {/* Header */}
                       <div className="mb-2 pb-1.5 border-b border-stone-300/40">
                         <p className="font-hand text-sage-deep text-[10px] md:text-xs font-bold tracking-wide">Devocional 365</p>
                         <div className="flex items-baseline justify-between">
@@ -368,16 +362,12 @@ export function App() {
                           <p className="text-[9px] md:text-[10px] text-stone-400 font-bold">1 de Janeiro</p>
                         </div>
                       </div>
-
-                      {/* Prayer */}
                       <div className="mb-2">
                         <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">🙏 Oração</p>
                         <p className="font-hand text-sm md:text-[17px] text-stone-600 leading-relaxed font-bold">
                           &ldquo;Senhor, hoje começo esta jornada Contigo. Guia meus passos e renova minha fé...&rdquo;
                         </p>
                       </div>
-
-                      {/* Verse */}
                       <div className="mb-2 bg-sage-light/20 rounded-lg p-2 md:p-3 border-l-[3px] border-sage">
                         <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">📖 Versículo</p>
                         <p className="font-hand text-[15px] md:text-lg text-sage-deep leading-snug font-bold">
@@ -385,16 +375,12 @@ export function App() {
                         </p>
                         <p className="text-[8px] md:text-[10px] text-stone-500 font-bold mt-0.5">— Apocalipse 21:5</p>
                       </div>
-
-                      {/* Reflection */}
                       <div className="mb-2">
                         <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">💭 Reflexão</p>
                         <p className="text-[10px] md:text-[12px] text-stone-600 leading-relaxed font-semibold">
                           Todo recomeço é uma graça. Deus não espera perfeição, Ele espera o seu coração aberto.
                         </p>
                       </div>
-
-                      {/* Notes */}
                       <div className="flex-1 mt-auto">
                         <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-1.5">✏️ Anotações</p>
                         <div className="space-y-2">
@@ -407,21 +393,19 @@ export function App() {
                           <div className="border-b border-dashed border-stone-300/30 h-3" />
                         </div>
                       </div>
-
                       <p className="text-center text-[9px] text-stone-400 font-bold mt-1.5">— 1 —</p>
                     </div>
                   </div>
 
                   {/* Page edges */}
-                  <div className="absolute right-0 top-3 bottom-3 w-[3px] flex flex-col justify-between">
-                    {Array.from({ length: 16 }).map((_, i) => (
+                  <div className="absolute right-0 top-4 bottom-4 w-[3px] flex flex-col justify-between">
+                    {Array.from({ length: 8 }).map((_, i) => (
                       <div key={i} className="h-[2px] bg-stone-300/40 rounded-full" />
                     ))}
                   </div>
                 </div>
 
-                {/* Label */}
-                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-md border border-stone-200/60 whitespace-nowrap">
+                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white/90 px-3 py-1 rounded-full shadow-md border border-stone-200/60 whitespace-nowrap">
                   <p className="text-[10px] md:text-xs text-stone-600 font-bold flex items-center gap-1.5">
                     <Printer className="w-3 h-3 text-sage-deep stroke-[2.5]" />
                     Versão impressa A4
@@ -433,12 +417,8 @@ export function App() {
               <div className="relative transform sm:rotate-2 hover:rotate-0 transition-transform duration-700 float-animation" style={{ animationDelay: '1s' }}>
                 <div className="absolute inset-0 bg-stone-900/10 rounded-[2rem] blur-xl translate-y-4 -translate-x-2" />
                 <div className="relative bg-stone-900 rounded-[2rem] md:rounded-[2.5rem] p-2 shadow-2xl w-[220px] sm:w-[175px] md:w-[220px] h-[400px] sm:h-[340px] md:h-[420px]">
-                  {/* Notch */}
                   <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-stone-900 rounded-b-xl z-20" />
-
-                  {/* Screen */}
                   <div className="bg-paper rounded-[1.5rem] md:rounded-[2rem] w-full h-full overflow-hidden relative">
-                    {/* Status bar */}
                     <div className="bg-sage-deep/10 px-4 pt-5 pb-1.5 flex items-center justify-between">
                       <p className="text-[8px] text-stone-500 font-bold">9:41</p>
                       <div className="flex gap-1">
@@ -447,10 +427,7 @@ export function App() {
                         <div className="w-3 h-1 bg-sage-deep rounded-sm" />
                       </div>
                     </div>
-
-                    {/* App content */}
                     <div className="px-3 md:px-4 pt-1.5 pb-3 h-full overflow-hidden">
-                      {/* App header */}
                       <div className="text-center mb-2 pb-1.5 border-b border-sage/20">
                         <p className="font-hand text-sage-deep text-[10px] md:text-sm font-bold">✦ Devocional 365 ✦</p>
                         <div className="flex items-baseline justify-center gap-1.5 mt-0.5">
@@ -458,16 +435,12 @@ export function App() {
                           <span className="text-[8px] md:text-[10px] text-stone-400 font-semibold">14 de Fev</span>
                         </div>
                       </div>
-
-                      {/* Prayer */}
                       <div className="mb-2">
                         <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">🙏 Oração</p>
                         <p className="font-hand text-[12px] md:text-[15px] text-stone-600 leading-relaxed font-bold">
                           &ldquo;Senhor, ensina-me a amar como Tu amas...&rdquo;
                         </p>
                       </div>
-
-                      {/* Verse */}
                       <div className="mb-2 bg-sage-light/25 rounded-lg p-2 border-l-[2px] md:border-l-[3px] border-sage">
                         <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">📖 Versículo</p>
                         <p className="font-hand text-[13px] md:text-[16px] text-sage-deep leading-snug font-bold">
@@ -475,16 +448,12 @@ export function App() {
                         </p>
                         <p className="text-[7px] md:text-[9px] text-stone-500 font-bold mt-0.5">— 1 Coríntios 13:4</p>
                       </div>
-
-                      {/* Reflection */}
                       <div className="mb-2">
                         <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">💭 Reflexão</p>
                         <p className="text-[9px] md:text-[11px] text-stone-600 leading-relaxed font-semibold">
                           Amar não é sobre intensidade, mas sobre constância...
                         </p>
                       </div>
-
-                      {/* Notes */}
                       <div>
                         <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-1">✏️ Anotações</p>
                         <div className="space-y-1.5">
@@ -499,8 +468,7 @@ export function App() {
                   </div>
                 </div>
 
-                {/* Label */}
-                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-md border border-stone-200/60 whitespace-nowrap">
+                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white/90 px-3 py-1 rounded-full shadow-md border border-stone-200/60 whitespace-nowrap">
                   <p className="text-[10px] md:text-xs text-stone-600 font-bold flex items-center gap-1.5">
                     <Smartphone className="w-3 h-3 text-sage-deep stroke-[2.5]" />
                     Versão digital
@@ -510,9 +478,61 @@ export function App() {
 
             </div>
 
-            {/* Decorative elements */}
-            <div className="absolute -top-6 -right-6 w-20 h-20 bg-sage/15 rounded-full blur-xl" />
-            <div className="absolute -bottom-10 right-10 w-28 h-28 bg-sky-soft/20 rounded-full blur-xl" />
+            {/* ── Preview Thumbnails: mais páginas do produto ── */}
+            <div className="grid grid-cols-3 gap-3 w-full max-w-md mt-4">
+              {/* Thumb 1: Introdução Mensal */}
+              <div className="bg-paper rounded-xl border border-paper-line/40 p-3 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div className="bg-sage-light/30 rounded-lg p-2 mb-2 text-center">
+                  <p className="font-hand text-sage-deep text-sm font-bold">Janeiro</p>
+                  <Calendar className="w-5 h-5 text-sage-deep mx-auto mt-0.5 stroke-[2]" />
+                </div>
+                <div className="space-y-1">
+                  <div className="h-[3px] bg-stone-200/60 rounded-full w-full" />
+                  <div className="h-[3px] bg-stone-200/60 rounded-full w-4/5" />
+                  <div className="h-[3px] bg-stone-200/60 rounded-full w-3/5" />
+                </div>
+                <p className="text-[8px] text-stone-400 font-bold text-center mt-2">Introdução mensal</p>
+              </div>
+
+              {/* Thumb 2: Página de reflexão */}
+              <div className="bg-paper rounded-xl border border-paper-line/40 p-3 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div className="space-y-1.5 mb-2">
+                  <p className="font-hand text-stone-600 text-[10px] font-bold">💭 Reflexão</p>
+                  <div className="bg-sage-light/20 rounded p-1.5 border-l-2 border-sage">
+                    <p className="font-hand text-sage-deep text-[9px] font-bold leading-tight">&ldquo;Deus cuida dos detalhes...&rdquo;</p>
+                  </div>
+                  <div className="h-[3px] bg-stone-200/60 rounded-full w-full" />
+                  <div className="h-[3px] bg-stone-200/60 rounded-full w-3/4" />
+                </div>
+                <div className="border-t border-dashed border-stone-300/40 pt-1.5">
+                  <p className="font-hand text-stone-400/70 text-[9px]">Minha anotação...</p>
+                </div>
+                <p className="text-[8px] text-stone-400 font-bold text-center mt-1.5">Reflexão diária</p>
+              </div>
+
+              {/* Thumb 3: Guia de recomeço */}
+              <div className="bg-paper rounded-xl border border-paper-line/40 p-3 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default">
+                <div className="bg-sky-light/40 rounded-lg p-2 mb-2 text-center">
+                  <RefreshCw className="w-4 h-4 text-sage-deep mx-auto stroke-[2]" />
+                  <p className="font-hand text-sage-deep text-[9px] font-bold mt-0.5">Recomeço</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-sage/40" />
+                    <div className="h-[3px] bg-stone-200/60 rounded-full flex-1" />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-sage/40" />
+                    <div className="h-[3px] bg-stone-200/60 rounded-full flex-1" />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-sage/40" />
+                    <div className="h-[3px] bg-stone-200/60 rounded-full flex-1" />
+                  </div>
+                </div>
+                <p className="text-[8px] text-stone-400 font-bold text-center mt-2">Guia de recomeço</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -525,7 +545,7 @@ export function App() {
       {/* ══════════════════════════════════════════════
           SECTION 2 — DOR E IDENTIFICAÇÃO (enxuta)
           ══════════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-cream to-white/50">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-cream to-white/50 section-lazy">
         <div className="max-w-3xl mx-auto px-6">
           <Reveal>
             <div className="text-center space-y-6">
