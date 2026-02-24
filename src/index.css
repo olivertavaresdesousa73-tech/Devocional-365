@@ -280,6 +280,115 @@ body {
   animation: drawLine 0.8s ease-out forwards;
 }
 
+/* Social proof toast */
+@keyframes toastSlideIn {
+  0% { transform: translateX(120%); opacity: 0; }
+  10% { transform: translateX(0); opacity: 1; }
+  90% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+.toast-notification {
+  animation: toastSlideIn 5s ease-in-out forwards;
+}
+
+/* Before/After card glow */
+.before-card {
+  position: relative;
+  overflow: hidden;
+}
+.before-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #e8a0a0, #d4908f);
+}
+
+.after-card {
+  position: relative;
+  overflow: hidden;
+}
+.after-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-sage), var(--color-sage-deep));
+}
+
+/* Price strike animation */
+@keyframes strikethrough {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.price-strike {
+  position: relative;
+}
+.price-strike::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  top: 50%;
+  height: 2px;
+  background: #c97070;
+  animation: strikethrough 0.6s ease-out 0.3s forwards;
+  width: 0;
+}
+
+/* Mobile sticky bar */
+@keyframes slideUpBar {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.mobile-sticky-bar {
+  animation: slideUpBar 0.4s ease-out forwards;
+}
+
+/* Guarantee shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.guarantee-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Pulse dot */
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.pulse-dot {
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+/* Number count animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.count-animate {
+  animation: countUp 0.5s ease-out forwards;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
