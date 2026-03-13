@@ -147,6 +147,33 @@ function StarRating({ count, size = 'md' }: { count: number; size?: 'sm' | 'md' 
   );
 }
 
+/* ─── Caderno Image with Fallback ─── */
+function CadernoImage() {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div className="w-full h-full bg-amber-50 rounded-lg shadow-2xl border border-stone-200 overflow-hidden flex flex-col items-center justify-center gap-3 p-6">
+        <div className="w-16 h-16 bg-sage-light/40 rounded-xl flex items-center justify-center">
+          <BookOpen className="w-8 h-8 text-sage-deep stroke-[1.5]" />
+        </div>
+        <p className="text-stone-400 text-xs text-center font-semibold">Adicione <strong>caderno.png</strong><br />na pasta public/images/</p>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src="/images/caderno.png"
+      alt="Devocional 365 — Versão impressa A4"
+      className="w-full h-full object-contain drop-shadow-2xl rounded-lg"
+      onError={() => setHasError(true)}
+    />
+  );
+}
+
+
+
 /* ─── Review Data ─── */
 const REVIEWS = [
   {
@@ -301,68 +328,13 @@ export function App() {
           <div className="relative flex flex-col items-center lg:items-end w-full gap-8">
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-8 sm:gap-4 md:gap-6 relative w-full justify-center">
 
-              {/* Caderno — Dia 1 */}
+              {/* Caderno — Imagem personalizada */}
               <div className="relative transform sm:-rotate-2 hover:rotate-0 transition-transform duration-700 float-animation">
-                <div className="absolute inset-0 bg-stone-900/10 rounded-lg blur-xl translate-y-4 translate-x-2" />
-                <div className="relative bg-amber-50 rounded-lg shadow-2xl w-[260px] sm:w-[230px] md:w-[290px] h-[380px] sm:h-[340px] md:h-[420px] border border-stone-200 overflow-hidden">
-                  <div className="absolute left-0 top-0 bottom-0 w-8 md:w-10 bg-gradient-to-r from-stone-600 via-stone-500 to-stone-400 rounded-l-lg flex flex-col items-center justify-between py-5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
-                    <p className="font-hand text-amber-100/90 text-[8px] md:text-[10px] font-bold tracking-widest" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                      DEVOCIONAL 365
-                    </p>
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber-300/80" />
-                  </div>
-                  <div className="ml-8 md:ml-10 h-full notebook-bg relative">
-                    <div className="absolute left-5 top-0 bottom-0 w-[1.5px] bg-red-400/20" />
-                    <div className="pl-7 pr-4 pt-4 pb-3 h-full flex flex-col">
-                      <div className="mb-2 pb-1.5 border-b border-stone-300/40">
-                        <p className="font-hand text-sage-deep text-[10px] md:text-xs font-bold tracking-wide">Devocional 365</p>
-                        <div className="flex items-baseline justify-between">
-                          <h3 className="font-display text-xl md:text-2xl font-bold text-stone-700">Dia 1</h3>
-                          <p className="text-[9px] md:text-[10px] text-stone-400 font-bold">1 de Janeiro</p>
-                        </div>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">🙏 Oração</p>
-                        <p className="font-hand text-sm md:text-[17px] text-stone-600 leading-relaxed font-bold">
-                          &ldquo;Senhor, hoje começo esta jornada Contigo. Guia meus passos e renova minha fé...&rdquo;
-                        </p>
-                      </div>
-                      <div className="mb-2 bg-sage-light/20 rounded-lg p-2 md:p-3 border-l-[3px] border-sage">
-                        <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">📖 Versículo</p>
-                        <p className="font-hand text-[15px] md:text-lg text-sage-deep leading-snug font-bold">
-                          &ldquo;Eis que faço todas as coisas novas.&rdquo;
-                        </p>
-                        <p className="text-[8px] md:text-[10px] text-stone-500 font-bold mt-0.5">— Apocalipse 21:5</p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">💭 Reflexão</p>
-                        <p className="text-[10px] md:text-[12px] text-stone-600 leading-relaxed font-semibold">
-                          Todo recomeço é uma graça. Deus não espera perfeição, Ele espera o seu coração aberto.
-                        </p>
-                      </div>
-                      <div className="flex-1 mt-auto">
-                        <p className="text-[8px] md:text-[10px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-1.5">✏️ Anotações</p>
-                        <div className="space-y-2">
-                          <div className="border-b border-dashed border-stone-300/50 pb-0.5">
-                            <p className="font-hand text-xs md:text-[15px] text-stone-400 font-semibold">Hoje é o meu primeiro dia...</p>
-                          </div>
-                          <div className="border-b border-dashed border-stone-300/50 pb-0.5">
-                            <p className="font-hand text-xs md:text-[15px] text-stone-300/80 font-semibold">Gratidão por esse recomeço ♡</p>
-                          </div>
-                          <div className="border-b border-dashed border-stone-300/30 h-3" />
-                        </div>
-                      </div>
-                      <p className="text-center text-[9px] text-stone-400 font-bold mt-1.5">— 1 —</p>
-                    </div>
-                  </div>
-                  <div className="absolute right-0 top-4 bottom-4 w-[3px] flex flex-col justify-between">
-                    {Array.from({ length: 8 }).map((_, i) => (
-                      <div key={i} className="h-[2px] bg-stone-300/40 rounded-full" />
-                    ))}
-                  </div>
+                <div className="absolute inset-0 bg-stone-900/10 rounded-2xl blur-xl translate-y-4 translate-x-2" />
+                <div className="relative w-[260px] sm:w-[230px] md:w-[290px] h-[380px] sm:h-[340px] md:h-[420px]">
+                  <CadernoImage />
                 </div>
-                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white/90 px-3 py-1 rounded-full shadow-md border border-stone-200/60 whitespace-nowrap">
+                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white/90 px-3 py-1.5 rounded-full shadow-md border border-stone-200/60 whitespace-nowrap">
                   <p className="text-[10px] md:text-xs text-stone-600 font-bold flex items-center gap-1.5">
                     <Printer className="w-3 h-3 text-sage-deep stroke-[2.5]" />
                     Versão impressa A4
@@ -370,63 +342,110 @@ export function App() {
                 </div>
               </div>
 
-              {/* Celular — Dia 45 */}
-              <div className="relative transform sm:rotate-2 hover:rotate-0 transition-transform duration-700 float-animation" style={{ animationDelay: '1s' }}>
-                <div className="absolute inset-0 bg-stone-900/10 rounded-[2rem] blur-xl translate-y-4 -translate-x-2" />
-                <div className="relative bg-stone-900 rounded-[2rem] md:rounded-[2.5rem] p-2 shadow-2xl w-[220px] sm:w-[175px] md:w-[220px] h-[400px] sm:h-[340px] md:h-[420px]">
-                  <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-stone-900 rounded-b-xl z-20" />
-                  <div className="bg-paper rounded-[1.5rem] md:rounded-[2rem] w-full h-full overflow-hidden relative">
-                    <div className="bg-sage-deep/10 px-4 pt-5 pb-1.5 flex items-center justify-between">
-                      <p className="text-[8px] text-stone-500 font-bold">9:41</p>
-                      <div className="flex gap-1">
-                        <div className="w-2.5 h-1 bg-stone-400 rounded-full" />
-                        <div className="w-1 h-1 bg-stone-400 rounded-full" />
-                        <div className="w-3 h-1 bg-sage-deep rounded-sm" />
-                      </div>
-                    </div>
-                    <div className="px-3 md:px-4 pt-1.5 pb-3 h-full overflow-hidden">
-                      <div className="text-center mb-2 pb-1.5 border-b border-sage/20">
-                        <p className="font-hand text-sage-deep text-[10px] md:text-sm font-bold">✦ Devocional 365 ✦</p>
-                        <div className="flex items-baseline justify-center gap-1.5 mt-0.5">
-                          <h3 className="font-display text-base md:text-xl font-bold text-stone-700">Dia 45</h3>
-                          <span className="text-[8px] md:text-[10px] text-stone-400 font-semibold">14 de Fev</span>
+              {/* Celular — iPhone com moldura e botões */}
+              <div className="relative transform sm:rotate-1 hover:rotate-0 transition-transform duration-700 float-animation" style={{ animationDelay: '1s', overflow: 'visible' }}>
+                {/* Shadow */}
+                <div className="absolute inset-4 bg-black/15 rounded-[3rem] blur-2xl translate-y-8" />
+                
+                {/* iPhone Container - overflow visible for buttons */}
+                <div className="relative" style={{ overflow: 'visible' }}>
+                  
+                  {/* ── Physical Buttons (LEFT) ── */}
+                  {/* Silent Switch */}
+                  <div className="absolute -left-[3px] top-[72px] w-[4px] h-[16px] rounded-l-sm bg-gradient-to-b from-zinc-300 via-zinc-400 to-zinc-300 border-l border-t border-b border-zinc-400 shadow-[-1px_0_2px_rgba(0,0,0,0.15)]" style={{ zIndex: 30 }} />
+                  {/* Volume Up */}
+                  <div className="absolute -left-[3px] top-[105px] w-[4px] h-[32px] rounded-l-sm bg-gradient-to-b from-zinc-300 via-zinc-400 to-zinc-300 border-l border-t border-b border-zinc-400 shadow-[-1px_0_2px_rgba(0,0,0,0.15)]" style={{ zIndex: 30 }} />
+                  {/* Volume Down */}
+                  <div className="absolute -left-[3px] top-[148px] w-[4px] h-[32px] rounded-l-sm bg-gradient-to-b from-zinc-300 via-zinc-400 to-zinc-300 border-l border-t border-b border-zinc-400 shadow-[-1px_0_2px_rgba(0,0,0,0.15)]" style={{ zIndex: 30 }} />
+                  
+                  {/* ── Physical Button (RIGHT) ── */}
+                  {/* Power Button */}
+                  <div className="absolute -right-[3px] top-[115px] w-[4px] h-[40px] rounded-r-sm bg-gradient-to-b from-zinc-300 via-zinc-400 to-zinc-300 border-r border-t border-b border-zinc-400 shadow-[1px_0_2px_rgba(0,0,0,0.15)]" style={{ zIndex: 30 }} />
+
+                  {/* iPhone Frame */}
+                  <div className="relative w-[250px] sm:w-[230px] md:w-[270px] h-[500px] sm:h-[460px] md:h-[540px] rounded-[3rem] bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 p-[3px] shadow-[0_25px_60px_-12px_rgba(0,0,0,0.35),0_0_0_1px_rgba(0,0,0,0.1)]" style={{ overflow: 'visible' }}>
+                    
+                    {/* Inner bezel */}
+                    <div className="w-full h-full rounded-[2.7rem] bg-black p-[2px]">
+                      
+                      {/* Screen */}
+                      <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden bg-amber-50">
+                        
+                        {/* Dynamic Island */}
+                        <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[80px] h-[24px] bg-black rounded-full z-20 flex items-center justify-center gap-2">
+                          <div className="w-[6px] h-[6px] rounded-full bg-zinc-700 ring-1 ring-zinc-600/40" />
+                          <div className="w-[4px] h-[4px] rounded-full bg-zinc-800" />
                         </div>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">🙏 Oração</p>
-                        <p className="font-hand text-[12px] md:text-[15px] text-stone-600 leading-relaxed font-bold">
-                          &ldquo;Senhor, ensina-me a amar como Tu amas...&rdquo;
-                        </p>
-                      </div>
-                      <div className="mb-2 bg-sage-light/25 rounded-lg p-2 border-l-[2px] md:border-l-[3px] border-sage">
-                        <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">📖 Versículo</p>
-                        <p className="font-hand text-[13px] md:text-[16px] text-sage-deep leading-snug font-bold">
-                          &ldquo;O amor é paciente, o amor é bondoso.&rdquo;
-                        </p>
-                        <p className="text-[7px] md:text-[9px] text-stone-500 font-bold mt-0.5">— 1 Coríntios 13:4</p>
-                      </div>
-                      <div className="mb-2">
-                        <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-0.5">💭 Reflexão</p>
-                        <p className="text-[9px] md:text-[11px] text-stone-600 leading-relaxed font-semibold">
-                          Amar não é sobre intensidade, mas sobre constância...
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-[7px] md:text-[9px] font-extrabold text-sage-deep uppercase tracking-[0.15em] mb-1">✏️ Anotações</p>
-                        <div className="space-y-1.5">
-                          <div className="border-b border-dashed border-stone-300/50 pb-0.5">
-                            <p className="font-hand text-[11px] md:text-[13px] text-stone-400 font-semibold">Gratidão pela manhã...</p>
+                        
+                        {/* Paper lines */}
+                        <div className="absolute inset-0 pointer-events-none">
+                          {Array.from({ length: 26 }).map((_, i) => (
+                            <div key={i} className="absolute w-full border-b border-blue-200/20" style={{ top: `${50 + i * 18}px` }} />
+                          ))}
+                          <div className="absolute top-0 bottom-0 left-10 w-[1px] bg-red-300/15" />
+                        </div>
+
+                        {/* Content */}
+                        <div className="relative pt-12 px-5 pb-8 h-full flex flex-col">
+                          
+                          {/* Header */}
+                          <div className="text-center pb-2.5 mb-3 border-b border-sage/20 flex-shrink-0">
+                            <p className="font-hand text-sage-deep text-sm font-bold tracking-wide">Devocional 365</p>
+                            <p className="font-display text-stone-800 text-3xl md:text-4xl font-bold leading-tight mt-0.5">Dia 45</p>
+                            <p className="text-stone-400 text-[10px] font-semibold tracking-widest uppercase mt-1">14 de Fevereiro</p>
                           </div>
-                          <div className="border-b border-dashed border-stone-300/40 h-2.5" />
-                          <div className="border-b border-dashed border-stone-300/30 h-2.5" />
+
+                          {/* Content sections */}
+                          <div className="flex-1 space-y-3.5 overflow-hidden">
+                            
+                            {/* Oração */}
+                            <div>
+                              <p className="text-[9px] text-sage-deep/70 font-bold tracking-[0.15em] uppercase mb-1">🙏 Oração</p>
+                              <p className="font-hand text-stone-700 text-[15px] md:text-[16px] leading-snug">"Senhor, ensina-me a amar como Tu amas. Abre meu coração..."</p>
+                            </div>
+
+                            {/* Versículo */}
+                            <div className="bg-sage-light/25 rounded-xl p-3.5 border-l-[3px] border-sage">
+                              <p className="text-[9px] text-sage-deep/70 font-bold tracking-[0.15em] uppercase mb-1">📖 Versículo</p>
+                              <p className="font-hand text-sage-deep text-[15px] md:text-[16px] leading-snug font-bold">"O amor é paciente, o amor é bondoso."</p>
+                              <p className="text-stone-400 text-[9px] font-bold mt-1.5 tracking-wide">— 1 Coríntios 13:4</p>
+                            </div>
+
+                            {/* Reflexão */}
+                            <div>
+                              <p className="text-[9px] text-sage-deep/70 font-bold tracking-[0.15em] uppercase mb-1">💭 Reflexão</p>
+                              <p className="font-hand text-stone-600 text-[14px] md:text-[15px] leading-snug">"Amar não é sobre intensidade, mas sobre constância..."</p>
+                            </div>
+
+                            {/* Anotações */}
+                            <div>
+                              <p className="text-[9px] text-sage-deep/70 font-bold tracking-[0.15em] uppercase mb-1">✏️ Anotações</p>
+                              <p className="font-hand text-stone-500/80 text-[13px] leading-relaxed italic">"Gratidão pela manhã tranquila..."</p>
+                              <p className="font-hand text-stone-400/70 text-[12px] leading-relaxed italic mt-0.5">"Lembrar de agradecer sempre ♡"</p>
+                              <div className="mt-2 space-y-[10px]">
+                                {[1, 2, 3].map(i => <div key={i} className="w-full border-b border-stone-300/25" />)}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Page number */}
+                          <p className="text-center text-stone-300 text-[9px] font-semibold mt-2 flex-shrink-0">— 45 —</p>
                         </div>
+
+                        {/* Home indicator */}
+                        <div className="absolute bottom-[6px] left-1/2 -translate-x-1/2 w-[90px] h-[4px] bg-stone-400/30 rounded-full" />
+                        
+                        {/* Glass reflection */}
+                        <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-white/10 via-transparent to-transparent rounded-[2.5rem]" />
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white/90 px-3 py-1 rounded-full shadow-md border border-stone-200/60 whitespace-nowrap">
-                  <p className="text-[10px] md:text-xs text-stone-600 font-bold flex items-center gap-1.5">
-                    <Smartphone className="w-3 h-3 text-sage-deep stroke-[2.5]" />
+
+                {/* Badge */}
+                <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg border border-stone-100 whitespace-nowrap">
+                  <p className="text-[11px] md:text-xs text-stone-600 font-bold flex items-center gap-1.5">
+                    <Smartphone className="w-3.5 h-3.5 text-sage-deep stroke-[2.5]" />
                     Versão digital
                   </p>
                 </div>
